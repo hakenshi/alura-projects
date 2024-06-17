@@ -1,0 +1,20 @@
+.time{
+    text-align: center;
+    padding: 32px;
+
+}
+
+.container{
+    padding: 32px;
+    gap: 5%;
+    max-width: 100%;
+    flex-wrap: wrap;
+}
+
+.time h3{
+    font-size: 32px;
+    font-family: 'Times New Roman', Times, serif;
+    border-bottom: 4px solid ;
+    display: inline-block;
+    padding-bottom: 8px;
+}

@@ -1,0 +1,56 @@
+.container{
+    display: flex;
+    justify-content: center;
+}
+.container .form{
+    max-width: 80%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #F2F2F2;
+    border-radius: 10px;
+    padding: 32px 64px;
+    box-shadow: 8px 8px 16px rgba(0, 0 ,0, 0.08);
+    margin: 80px;
+
+}
+
+.form h2{
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: lighter;
+    text-align: center;
+    font-size: xx-large;
+}
+
+.form button{
+    background-color: #6278F7;
+    border: none;
+    border-radius: 7px;
+    color: white;
+    width: 100px;
+    padding: 15px;
+
+}
+
+.form button:hover{
+    background-color: #8495f8;
+    cursor: pointer;
+}
+
+.campo-texto{
+    margin: 24px 0;
+}
+.campo-texto label{
+    display: block;
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.campo-texto input, select{
+    background-color: white;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.13);
+    width: 100%;
+    padding: 20px;
+    border: none;
+    font-size: 20px;
+}
