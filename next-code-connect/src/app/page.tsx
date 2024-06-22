@@ -1,11 +1,10 @@
 import { CardPost } from "@/components/CardPost";
 import Link from "next/link";
 import db from "../../prisma/db"
-import logger from "./logger"
-import SearchBar from "@/components/SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
 import { HomeProps } from "@/types";
+import { Modal } from "@/components/Modal/index"
 
 type WhereClause = {
   title?: {
@@ -41,7 +40,8 @@ const fetchData = async (page: number, search: string) =>{
       skip,
       where,
       include:{
-        author: true
+        author: true,
+        comments: true,
       } 
     })
 
@@ -49,7 +49,7 @@ const fetchData = async (page: number, search: string) =>{
 
   } catch (error) {
     
-    logger.error(error)
+    console.error(error)
 
     return { data: [], prev: null, next: null }
   }

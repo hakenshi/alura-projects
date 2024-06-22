@@ -1,12 +1,21 @@
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher"
 import { ImageProps } from "next/image"
-import { ImgHTMLAttributes } from "react"
+import React, { ImgHTMLAttributes } from "react"
 
 export interface Author{
     id: number
     name: string
     username: string
     avatar: string
+}
+
+interface Comments{
+  id: number
+  text: string
+  updated_ad: Date
+  created_at: Date
+  post: Post
+  author: Author
 }
 
 interface Post{
@@ -16,10 +25,12 @@ interface Post{
     slug: string
     body: string
     markdown: string
+    likes: number
     author: Author
+    comments: Comments[]
 }
 
-export interface PostProps{
+export type PostProps = {
     posts: Post
     cardSize: "sm" | "lg"
 }
@@ -45,4 +56,12 @@ export interface ErrorPageProps{
   error: string
   errorMsg: string
   errorImg: string
+}
+export interface ModalProps {
+    children: React.ReactNode
+    ref: React.Ref<any>
+}
+
+export type CommentProps = {
+  comment: Comments
 }

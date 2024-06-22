@@ -26,7 +26,7 @@ export default function RootLayout({
       <body className={`${prompt.className} w-screen bg-gradient-to-t min-h-screen text-white from-[#0E1112] to-[#00090E]`}>
         <div className="flex w-full justify-center gap-5 p-5">
           <Aside />
-          <div className="flex flex-col gap-4 items-center">
+          <div className="flex flex-col items-center">
             <SearchBar />
             {children}
           </div>

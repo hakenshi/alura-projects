@@ -12,6 +12,7 @@ async function getPosts(slug:string) {
       },
       include: {
         author: true,
+        comments: true
       }
     })
 
@@ -33,8 +34,6 @@ async function getPosts(slug:string) {
 const PagePost = async ({params}: {params:{slug: string}}) => {
   
   const post = await getPosts(params.slug)
-  
-
 
   return (
     <main className='max-w-screen-lg flex flex-col items-center'>
