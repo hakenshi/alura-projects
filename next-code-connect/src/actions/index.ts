@@ -1,6 +1,6 @@
 'use server'
 
-import { Post } from "@prisma/client";
+import { Comment, Post } from "@prisma/client";
 import prisma from "../../prisma/db"
 import {revalidatePath} from "next/cache";
 import { Author } from "@/types";
@@ -44,4 +44,25 @@ export async function postComment(post:any, formData: FormData){
     revalidatePath(`/`)
     revalidatePath(`/${post.slug}`)
 
+}
+export async function postReply(post:any, parent: Comment, formData: FormData){
+
+    // await new Promise(resolve => setTimeout(resolve, 1000))
+
+    const author = await prisma.user.findFirst({
+        where: {
+             username: "anabeatriz_dev"
+        }
+    })
+
+    await prisma.comment.create({
+        data: {
+            text: formData.get('comment'),
+            authorId: author.id,
+            postId: post.id,
+            parentId: parent.parentId ?? parent.id
+        }
+    })
+
+    revalidatePath(`/${post.slug}`)
 }

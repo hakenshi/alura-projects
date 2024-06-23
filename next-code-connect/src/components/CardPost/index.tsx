@@ -1,6 +1,6 @@
 import React from "react"
 
-import { PostProps } from "@/types"
+import { Post, PostProps } from "@/types"
 import Image from "next/image"
 import { Avatar } from "../Avatar"
 import Link from "next/link"
@@ -8,7 +8,7 @@ import { incrementLikes, postComment } from "@/actions"
 import LikeButton from "@/components/CardPost/LikeButton";
 import ModalComment from "../ModalComment"
 
-export const CardPost = ({ posts, cardSize }: PostProps) => {
+export const CardPost = ({ posts, cardSize }: {posts: Post, cardSize: "sm" | 'lg'}) => {
 
     const sizes = {
         sm: "w-[486px] min-h-[431px]",
@@ -36,7 +36,7 @@ export const CardPost = ({ posts, cardSize }: PostProps) => {
                     <form action={handleSubmit}>
                         <LikeButton likes={posts.likes} />
                     </form>
-                    <div>
+                    <div className="flex flex-col items-center">
                         <ModalComment action={handleCommentSubmit} />
                         <p className="text-xs">{posts.comments.length}</p>
                     </div>
@@ -65,7 +65,7 @@ export const CardPost = ({ posts, cardSize }: PostProps) => {
                     <form action={handleSubmit}>
                         <LikeButton likes={posts.likes} />
                     </form>
-                    <div>
+                    <div className="flex flex-col items-center">
                         <ModalComment action={handleCommentSubmit} />
                         <p className="text-xs">{posts.comments.length}</p>
                     </div>
