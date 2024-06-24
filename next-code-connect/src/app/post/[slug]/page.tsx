@@ -15,13 +15,21 @@ async function getPosts(slug:string) {
         author: true,
         comments: {
           include: {
-            author: true
+            author: true,
+            children: {
+              include: {
+                author: true
+              }
+            }
+          },
+          where: {
+            parentId: null
           }
         }
       }
     })
 
-    if(!post) throw new Error(`Não foi possível encontraro o post ${slug}`)
+    if(!post) throw new Error(`Não foi possível encontrar o post ${slug}`)
 
     const processedContent = await remark().use(html).process(post.markdown)
     const htmlContent = processedContent.toString()
@@ -47,10 +55,10 @@ const PagePost = async ({params}: {params:{slug: string}}) => {
       <h2 className='text-cinza-300 text-2xl font-semibold'>Código:</h2>
         <div className='bg-cinza-500 p-5 rounded-xl text-cinza-200 max-h-64 overflow-y-scroll' dangerouslySetInnerHTML={{ __html: post.markdown }}></div>
       </div>
-      <div className='bg-cinza-300 text-black rounded-xl w-full max-h-[839px] px-7 py-10 text-2xl font-semibold'>
+      {post.comments.length > 0 && <div className='bg-cinza-300 text-black rounded-xl w-full max-h-[839px] overflow-y-clip px-7 py-10 text-2xl font-semibold'>
         <h2>Comentários</h2>
         <CommentList comment={post.comments} />
-      </div>
+      </div>}
     </main>
   )
 }

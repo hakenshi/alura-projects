@@ -45,7 +45,7 @@ export async function postComment(post:any, formData: FormData){
     revalidatePath(`/${post.slug}`)
 
 }
-export async function postReply(post:any, parent: Comment, formData: FormData){
+export async function postReply(parent: Comment, formData: FormData){
 
     // await new Promise(resolve => setTimeout(resolve, 1000))
 
@@ -55,14 +55,22 @@ export async function postReply(post:any, parent: Comment, formData: FormData){
         }
     })
 
+    const comment:any = formData.get('comment')
+
+    const post = await prisma.comment.findFirst({
+        where: {
+            id: parent.id
+        }
+    })
+
     await prisma.comment.create({
         data: {
-            text: formData.get('comment'),
-            authorId: author.id,
-            postId: post.id,
+            text: comment,
+            authorId: author?.id,
+            postId: post?.id,
             parentId: parent.parentId ?? parent.id
         }
     })
 
-    revalidatePath(`/${post.slug}`)
+    revalidatePath(`/${post?.slug}`)
 }
