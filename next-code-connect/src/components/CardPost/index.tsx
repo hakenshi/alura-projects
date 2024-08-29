@@ -19,6 +19,10 @@ export const CardPost = ({ posts, cardSize }: {posts: Post, cardSize: "sm" | 'lg
 
    const handleCommentSubmit = postComment.bind(null, posts)
 
+    const username = posts.author.username ?? posts.author.name
+
+    const imageSrc = posts.author.avatar ?? posts.author.image
+
     if (cardSize === "lg") {
         return (
             <article className={`bg-cinza-500 rounded-xl`}>
@@ -41,7 +45,7 @@ export const CardPost = ({ posts, cardSize }: {posts: Post, cardSize: "sm" | 'lg
                         <p className="text-xs">{posts.comments.length}</p>
                     </div>
                 </div>
-                <Avatar name={posts.author.username} url={posts.author.avatar} />
+                <Avatar name={username} url={imageSrc} />
             </footer>
             </article>
         )
@@ -70,7 +74,7 @@ export const CardPost = ({ posts, cardSize }: {posts: Post, cardSize: "sm" | 'lg
                         <p className="text-xs">{posts.comments.length}</p>
                     </div>
                 </div>
-                <Avatar name={posts.author.username} url={posts.author.avatar} />
+                <Avatar name={username} url={imageSrc} />
             </footer>
         </article>
 

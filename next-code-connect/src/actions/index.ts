@@ -4,6 +4,9 @@ import { Comment, Post } from "@prisma/client";
 import prisma from "../../prisma/db"
 import {revalidatePath} from "next/cache";
 import { Author } from "@/types";
+import {getSession} from "next-auth/react";
+import {options} from "@/app/api/auth/[...nextauth]/options";
+import {getServerSession} from "next-auth";
 
 export async function incrementLikes(post: any){
 
@@ -27,16 +30,18 @@ export async function postComment(post:any, formData: FormData){
 
     // await new Promise(resolve => setTimeout(resolve, 1000))
 
-    const author = await prisma.user.findFirst({
-        where: {
-             username: "anabeatriz_dev"
-        }
-    })
+    // const author = await prisma.user.findFirst({
+    //     where: {
+    //          username: "anabeatriz_dev"
+    //     }
+    // })
+
+    const session = await getServerSession(options)
 
     await prisma.comment.create({
         data: {
             text: formData.get('comment'),
-            authorId: author.id,
+            authorId: session?.user?.id.id,
             postId: post.id 
         }
     })
@@ -49,15 +54,17 @@ export async function postReply(parent: Comment, formData: FormData){
 
     // await new Promise(resolve => setTimeout(resolve, 1000))
 
-    const author = await prisma.user.findFirst({
-        where: {
-             username: "anabeatriz_dev"
-        }
-    })
+    // const author = await prisma.user.findFirst({
+    //     where: {
+    //          username: "anabeatriz_dev"
+    //     }
+    // })
+
+    const session = await getSession(options)
 
     const comment:any = formData.get('comment')
 
-    const post = await prisma.comment.findFirst({
+    const post:Post = await prisma.comment.findFirst({
         where: {
             id: parent.id
         }
@@ -66,11 +73,11 @@ export async function postReply(parent: Comment, formData: FormData){
     await prisma.comment.create({
         data: {
             text: comment,
-            authorId: author?.id,
+            authorId: session?.user?.id.id,
             postId: post?.id,
             parentId: parent.parentId ?? parent.id
         }
     })
 
-    revalidatePath(`/${post?.slug}`)
+    revalidatePath(`/${post.slug}`)
 }

@@ -8,15 +8,6 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
-model User {
-  id       Int       @id @default(autoincrement())
-  name     String
-  username String    @unique
-  avatar   String
-  post     Post[]
-  Comments Comment[]
-}
-
 model Post {
   id         Int       @id @default(autoincrement())
   authorId   Int
@@ -44,4 +35,56 @@ model Comment {
   created_at DateTime  @default(now())
   update_ad  DateTime  @updatedAt
   children   Comment[] @relation("CommentChildren")
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  name          String?
+  username      String?   @unique
+  avatar        String?
+  email         String?   @unique
+  emailVerified String?
+  image         String?
+  post          Post[]
+  Comments      Comment[]
+  Account       Account[]
+  Session       Session[]
+}
+
+model Account {
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([provider, providerAccountId])
+}
+
+model Session {
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
 }

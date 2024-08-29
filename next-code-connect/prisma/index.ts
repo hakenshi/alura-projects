@@ -5,12 +5,15 @@ async function main() {
         name: "Ana Beatriz",
         username: "anabeatriz_dev",
         avatar: "https://raw.githubusercontent.com/viniciosneves/code-connect-assets/main/authors/anabeatriz_dev.png",
+        email: "anabeatriz_dev@email.com",
+        image: ''
     };
-
 
     const ana = await prisma.user.upsert({
         where: { username: author.username },
-        update: {},
+        update: {
+            email: author.email,
+        },
         create: author,
     })
 
